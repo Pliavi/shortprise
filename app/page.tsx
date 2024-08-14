@@ -1,15 +1,34 @@
+"use client";
 import { RSButton } from "@/components/RSButton";
 import { RSInput } from "@/components/RSInput";
 import { RSOpenModeSwitch } from "@/components/RSOpenModeSwitch";
 import { RSRedirectFieldSet } from "@/components/RSRedirectFieldSet";
+import { createShortcut } from "./actions/create-shortcut";
+import { useState } from "react";
+import { useAppStore } from "./stores/AppStore";
 
 export default function Home() {
+  const app = useAppStore();
+  const [message, setMessage] = useState<string | null>(null);
+
+  async function create(e: FormData) {
+    app.setStatus("loading");
+    const response = await createShortcut(e);
+    setMessage(response.message);
+    if (!response.ok) {
+      app.setStatus("error");
+    } else {
+      app.setStatus("success");
+    }
+
+    setTimeout(() => {
+      app.setStatus("");
+    }, 3000);
+  }
+
   return (
-    <form
-      method="POST"
-      action="/api/shortcuts"
-      className="overflow-y-scroll h-full p-8"
-    >
+    <form action={create} className="overflow-y-scroll h-full p-8">
+      {message && <p className="text-sm text-green-500">{message}</p>}
       <RSInput
         label="Qual nome do seu atalho?"
         name="name"

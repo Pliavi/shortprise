@@ -44,6 +44,7 @@ export const RSOpenModeSwitch = ({
             className="sr-only"
             value="sequentially"
             checked={selectedValue === "sequentially"}
+            name="mode"
             onChange={() => handleChange("sequentially")}
           />
         </label>
@@ -65,6 +66,7 @@ export const RSOpenModeSwitch = ({
             className="sr-only"
             value="randomly"
             checked={selectedValue === "randomly"}
+            name="mode"
             onChange={() => handleChange("randomly")}
           />
         </label>
