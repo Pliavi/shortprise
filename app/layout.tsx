@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
+
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,8 +20,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="pt-br">
+      <body className={inter.className}>
+        <div className="flex flex-col w-dvw h-dvh relative bg-gray-900 items-center justify-center overflow-hidden">
+          <div className="absolute right-[25%] animate-spin-slow bg-opacity-50 bg-pink-500 w-4/12 aspect-square rounded-full origin-top-right"></div>
+          <div className="absolute bottom-[50%] animate-spin-slow bg-opacity-50 bg-purple-500 w-4/12 aspect-square rounded-full origin-bottom"></div>
+          <div className="absolute left-[25%] animate-spin-slow bg-opacity-50 bg-orange-500 w-4/12 aspect-square rounded-full origin-bottom-left"></div>
+          <div className="absolute top-[50%] animate-spin-slow bg-opacity-50 bg-cyan-500 w-4/12 aspect-square rounded-full origin-top"></div>
+
+          <div className="fixed inset-0 border-4 border-l-pink-500 border-r-orange-500 border-b-cyan-500 border-t-purple-500 border-opacity-25"></div>
+          <div className="fixed inset-0 backdrop-blur-3xl z-[2]"></div>
+          <div className="fixed inset-0 z-[4] bg-[url('/background.jpg')] bg-cover bg-center mix-blend-color-dodge opacity-25"></div>
+          <div className="relative z-10 container md:max-w-[1024px] mx-auto h-4/5 flex flex-col items-center justify-center gap-6">
+            <h1 className="relative text-6xl text-center text-white font-black drop-shadow-xl">
+              Shortprise
+            </h1>
+            <div className="w-full max-h-[90%] bg-gray-950 bg-opacity-75 rounded-2xl shadow-2xl">
+              {children}
+            </div>
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
