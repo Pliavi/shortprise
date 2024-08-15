@@ -1,30 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-
-type OpenMode = "sequentially" | "randomly";
+import React from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface Props {
-  initialValue?: OpenMode;
-  onChange?: (value: OpenMode) => void;
+  registerOptions: UseFormRegisterReturn;
 }
 
-export const RSOpenModeSwitch = ({
-  initialValue = "sequentially",
-  onChange,
-}: Props) => {
-  const [selectedValue, setSelectedValue] = useState<OpenMode>(initialValue);
-
-  useEffect(() => {
-    if (onChange) {
-      onChange(selectedValue);
-    }
-  }, [selectedValue, onChange]);
-
-  const handleChange = (value: OpenMode) => {
-    setSelectedValue(value);
-  };
-
+export const RSOpenModeSwitch = ({ registerOptions }: Props) => {
   return (
     <fieldset className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <legend className="sr-only">Modo de abertura</legend>
@@ -40,12 +23,10 @@ export const RSOpenModeSwitch = ({
           </div>
 
           <input
+            {...registerOptions}
             type="radio"
             className="sr-only"
             value="sequentially"
-            checked={selectedValue === "sequentially"}
-            name="mode"
-            onChange={() => handleChange("sequentially")}
           />
         </label>
       </div>
@@ -62,12 +43,10 @@ export const RSOpenModeSwitch = ({
           </div>
 
           <input
+            {...registerOptions}
             type="radio"
             className="sr-only"
             value="randomly"
-            checked={selectedValue === "randomly"}
-            name="mode"
-            onChange={() => handleChange("randomly")}
           />
         </label>
       </div>

@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-        <div className="flex flex-col w-dvw h-dvh relative bg-gray-900 items-center justify-center overflow-hidden">
+        <div className="flex flex-col w-dvw h-dvh relative bg-gray-900 items-center justify-center overflow-hidden text-white">
           <RSBackgroundBubbles />
           <div className="fixed inset-0 border-4 border-l-pink-500 border-r-orange-500 border-b-cyan-500 border-t-purple-500 border-opacity-25"></div>
           <div className="fixed inset-0 backdrop-blur-3xl z-[2]"></div>
