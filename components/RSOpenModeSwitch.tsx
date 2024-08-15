@@ -4,7 +4,7 @@ import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface Props {
-  registerOptions: UseFormRegisterReturn;
+  registerOptions?: UseFormRegisterReturn;
 }
 
 export const RSOpenModeSwitch = ({ registerOptions }: Props) => {

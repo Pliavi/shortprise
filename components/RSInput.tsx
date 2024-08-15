@@ -1,11 +1,15 @@
 import clsx from "clsx";
+import { forwardRef } from "react";
 
 type Props = React.ComponentProps<"input"> & {
   label?: string;
   prefix?: string;
 };
 
-export const RSInput = ({ label, prefix, className, ...props }: Props) => {
+export const RSInput = forwardRef<HTMLInputElement, Props>(function RSInput(
+  { label, prefix, className, ...props },
+  ref
+) {
   return (
     <div className="w-full space-y-1 dark:text-gray-800">
       <label className="block font-bold text-white">
@@ -18,6 +22,7 @@ export const RSInput = ({ label, prefix, className, ...props }: Props) => {
             </span>
           )}
           <input
+            ref={ref}
             type="text"
             className={clsx(
               "inline-block flex-1 w-full flex-shrink border-white border-opacity-5 border bg-white bg-opacity-10 rounded-lg p-2 shadow focus:outline-none focus:ring-2  focus:ring-purple-500 focus:ring-inset focus:ring-opacity-30",
@@ -30,4 +35,4 @@ export const RSInput = ({ label, prefix, className, ...props }: Props) => {
       </label>
     </div>
   );
-};
+});

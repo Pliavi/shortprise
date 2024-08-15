@@ -1,8 +1,12 @@
 import clsx from "clsx";
+import { forwardRef } from "react";
 
 type Props = React.ComponentProps<"button"> & {};
 
-export const RSButton = ({ children, className, ...props }: Props) => {
+export const RSButton = forwardRef<HTMLButtonElement, Props>(function RSButton(
+  { children, className, ...props },
+  ref
+) {
   return (
     <button
       className={clsx(
@@ -14,4 +18,4 @@ export const RSButton = ({ children, className, ...props }: Props) => {
       {children}
     </button>
   );
-};
+});
