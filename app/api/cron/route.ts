@@ -5,7 +5,7 @@ export async function GET(req: Request) {
   const authorization = req.headers.get("Authorization");
   const secretBearerToken = `Bearer ${process.env.CRON_SECRET}`;
 
-  if (process.env.CRON_SECRET || authorization !== secretBearerToken) {
+  if (!process.env.CRON_SECRET || authorization !== secretBearerToken) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
