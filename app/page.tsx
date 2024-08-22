@@ -18,8 +18,15 @@ type ResultBag = ActionResult & {
   url?: string;
 };
 
+const version = process.env.VERCEL_GIT_COMMIT_SHA;
+
 export default function HomePage() {
-  const location = typeof window !== "undefined" ? window.location : undefined;
+  const [location, setLocation] = useState<Location | null>(null);
+
+  useEffect(() => {
+    setLocation(window.location);
+  }, [setLocation]);
+
   const app = useAppStore();
   const [result, setResult] = useState<ResultBag | undefined>();
   const {
@@ -104,6 +111,9 @@ export default function HomePage() {
       <small className="text-xs text-center block mt-8">
         <span className="font-bold">Obs:</span> O atalho será apagado
         automaticamente depois de 15 dias sem acesso.
+      </small>
+      <small className="text-[0.5rem] text-center block -mb-2 mt-2">
+        ver.{version}
       </small>
     </form>
   );
