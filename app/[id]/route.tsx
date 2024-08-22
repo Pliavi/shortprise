@@ -1,6 +1,8 @@
 import { ShortcutRepository } from "@/lib/repositories/ShortcutRepository";
 import { NextResponse } from "next/server";
 
+export const runtime = "edge";
+
 type Context = {
   params: {
     id: string;
