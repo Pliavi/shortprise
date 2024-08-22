@@ -1,4 +1,7 @@
-import { ActionErrorCode } from "./action-error-codes";
+export type ActionErrorCode =
+  | "VALIDATION_ERROR"
+  | "UNKNOWN_ERROR"
+  | "DUPLICATE_ERROR";
 
 export type SuccessActionResult<S = undefined> = S extends undefined
   ? {

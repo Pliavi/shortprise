@@ -3,7 +3,7 @@ import { RSButton } from "@/components/RSButton";
 import { RSInput } from "@/components/RSInput";
 import { RSOpenModeSwitch } from "@/components/RSOpenModeSwitch";
 import { RSRedirectFieldSet } from "@/components/RSRedirectFieldSet";
-import { createShortcut } from "./actions/CreateShortcutAction";
+import { createShortcut } from "./actions/createShortcut.action";
 import { useEffect, useState } from "react";
 import { useAppStore } from "./stores/AppStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +12,7 @@ import {
   ShortcutCreationForm,
   ShortcutCreationFormSchema,
 } from "./schemas/ShortcutCreationFormSchema";
-import { ActionResult } from "@/lib/types/actions/action-error-types";
+import { ActionResult } from "@/lib/types/actions/result.types";
 
 type ResultBag = ActionResult & {
   url?: string;

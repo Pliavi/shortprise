@@ -1,6 +1,9 @@
 import { db } from "../database/database";
 import { addDays } from "date-fns";
-import { NewShortcut, Shortcut } from "../types/database/tables";
+import { NewShortcut, Shortcut } from "../types/database/tables.types";
+import { DatabaseError } from "pg";
+import { PostgresErrorCode } from "../types/database/errors.types";
+import { RepositoryError } from "../types/repositories/errors.types";
 
 const DAYS_TO_EXPIRE = 15;
 
@@ -9,26 +12,38 @@ export type ShortcutCreate = Omit<NewShortcut, "expires_at" | "url_count">;
 export const ShortcutRepository = {
   create: async (shortcut: ShortcutCreate, urls: string[]) => {
     await db.transaction().execute(async (tx) => {
-      const newShortcut = await tx
-        .insertInto("shortcuts")
-        .values({
-          ...shortcut,
-          url_count: urls.length,
-          expires_at: addDays(new Date(), DAYS_TO_EXPIRE),
-          created_at: new Date(),
-        })
-        .returning("id")
-        .executeTakeFirstOrThrow();
+      try {
+        const newShortcut = await tx
+          .insertInto("shortcuts")
+          .values({
+            ...shortcut,
+            url_count: urls.length,
+            expires_at: addDays(new Date(), DAYS_TO_EXPIRE),
+            created_at: new Date(),
+          })
+          .returning("id")
+          .executeTakeFirstOrThrow();
 
-      await tx
-        .insertInto("urls")
-        .values(
-          urls.map((url) => ({
-            shortcut_id: newShortcut.id,
-            url,
-          }))
-        )
-        .execute();
+        await tx
+          .insertInto("urls")
+          .values(
+            urls.map((url) => ({
+              shortcut_id: newShortcut.id,
+              url,
+            }))
+          )
+          .execute();
+      } catch (error) {
+        if (
+          error instanceof DatabaseError &&
+          error.code === PostgresErrorCode.UniqueViolation
+        ) {
+          throw new RepositoryError(
+            "Shortcut already exists",
+            PostgresErrorCode.UniqueViolation
+          );
+        }
+      }
     });
   },
   deleteAllUnused: async () => {
