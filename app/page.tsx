@@ -113,7 +113,7 @@ export default function HomePage() {
         automaticamente depois de 15 dias sem acesso.
       </small>
       <small className="text-[10px] text-end block mt-4 -mr-4 -mb-4 text-[#5c5c5c]">
-        ver.{version ?? "local"}
+        ver.{version}
       </small>
     </form>
   );
