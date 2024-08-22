@@ -19,7 +19,7 @@ type ResultBag = ActionResult & {
 };
 
 export default function HomePage() {
-  const [origin] = useState(() => window.location.origin);
+  const origin = typeof window !== "undefined" && window.location.origin;
   const app = useAppStore();
   const [result, setResult] = useState<ResultBag | undefined>();
   const {
