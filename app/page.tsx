@@ -112,8 +112,8 @@ export default function HomePage() {
         <span className="font-bold">Obs:</span> O atalho será apagado
         automaticamente depois de 15 dias sem acesso.
       </small>
-      <small className="text-[0.5rem] text-center block -mb-2 mt-2">
-        ver.{version}
+      <small className="text-[10px] text-end block mt-4 -mr-4 -mb-4 text-[#5c5c5c]">
+        ver.{version ?? "local"}
       </small>
     </form>
   );
