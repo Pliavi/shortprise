@@ -1,14 +1,13 @@
 import { db } from "../database/database";
 import { addDays } from "date-fns";
-import { NewShortcut, Shortcut } from "../database/types";
+import { NewShortcut, Shortcut } from "../types/database/tables";
 
 const DAYS_TO_EXPIRE = 15;
 
+export type ShortcutCreate = Omit<NewShortcut, "expires_at" | "url_count">;
+
 export const ShortcutRepository = {
-  create: async (
-    shortcut: Omit<NewShortcut, "expires_at" | "url_seq">,
-    urls: string[]
-  ) => {
+  create: async (shortcut: ShortcutCreate, urls: string[]) => {
     await db.transaction().execute(async (tx) => {
       const newShortcut = await tx
         .insertInto("shortcuts")

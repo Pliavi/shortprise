@@ -9,6 +9,7 @@ const minusIcon = <FontAwesomeIcon icon={faClose} />;
 
 interface RSRedirectFieldProps extends React.ComponentProps<"input"> {
   onRemove: () => void;
+  error?: string;
 }
 
 export const RSRedirectField = forwardRef<
@@ -16,13 +17,13 @@ export const RSRedirectField = forwardRef<
   RSRedirectFieldProps
 >(function RSRedirectField({ onRemove, ...props }, ref) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 items-start">
       <RSInput
         ref={ref}
         placeholder="example.com or https://example.com"
         {...props}
       />
-      <RSButton type="button" onClick={onRemove}>
+      <RSButton type="button" onClick={onRemove} className="h-11">
         {minusIcon}
       </RSButton>
     </div>

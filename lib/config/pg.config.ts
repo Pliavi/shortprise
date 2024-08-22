@@ -1,4 +1,4 @@
-import "./env.config";
+// import "./env.config";
 import { PostgresDialect } from "kysely";
 import { Pool } from "pg";
 

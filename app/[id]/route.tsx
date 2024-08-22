@@ -1,6 +1,5 @@
 import { ShortcutRepository } from "@/lib/repositories/ShortcutRepository";
-import { NextApiRequest } from "next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 type Context = {
   params: {

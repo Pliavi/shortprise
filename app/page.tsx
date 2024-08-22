@@ -3,27 +3,27 @@ import { RSButton } from "@/components/RSButton";
 import { RSInput } from "@/components/RSInput";
 import { RSOpenModeSwitch } from "@/components/RSOpenModeSwitch";
 import { RSRedirectFieldSet } from "@/components/RSRedirectFieldSet";
-import { createShortcut } from "./actions/create-shortcut";
-import { useState } from "react";
+import { createShortcut } from "./actions/CreateShortcutAction";
+import { useEffect, useState } from "react";
 import { useAppStore } from "./stores/AppStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   ShortcutCreationForm,
   ShortcutCreationFormSchema,
-} from "./schemas/ShortCutCreationForm";
+} from "./schemas/ShortcutCreationFormSchema";
+import { ActionResult } from "@/lib/types/actions/action-error-types";
 
-type ResultBag = {
-  message?: string;
+type ResultBag = ActionResult & {
   url?: string;
 };
 
-export default function Home() {
+export default function HomePage() {
+  const [origin] = useState(() => window.location.origin);
   const app = useAppStore();
-  const [message, setMessage] = useState<ResultBag | undefined>();
+  const [result, setResult] = useState<ResultBag | undefined>();
   const {
     register,
-    setError,
     handleSubmit,
     control,
     formState: { errors },
@@ -31,7 +31,7 @@ export default function Home() {
     defaultValues: {
       name: "",
       mode: "randomly",
-      urls: [],
+      urls: [{ value: "" }],
     },
     resolver: zodResolver(ShortcutCreationFormSchema),
   });
@@ -39,35 +39,18 @@ export default function Home() {
   async function onSubmit(data: ShortcutCreationForm) {
     app.setStatus("loading");
 
-    console.log(data);
+    const result = await createShortcut(data);
+    setTimeout(() => app.setStatus(""), 1500);
 
-    const response = await createShortcut(data);
-    console.log(response);
-
-    setTimeout(() => {
-      app.setStatus("");
-    }, 3000);
-
-    if (response.ok) {
-      app.setStatus("success");
-      setMessage({
-        url: window.location.origin + "/" + data.name,
-      });
+    if (!result.ok) {
+      setResult(result);
+      app.setStatus("error");
       return;
     }
 
-    app.setStatus("error");
-    setMessage({
-      message: response.message,
-    });
-    if (response.code === "VALIDATION_ERROR") {
-      response.errors.forEach((error) => {
-        setError(error.path.join(".") as keyof ShortcutCreationForm, {
-          message: error.message,
-          type: error.code,
-        });
-      });
-    }
+    app.setStatus("success");
+
+    setResult({ ...result, url: `${origin}/${data.name}` });
   }
 
   return (
@@ -75,50 +58,51 @@ export default function Home() {
       onSubmit={handleSubmit(onSubmit)}
       className="overflow-y-scroll h-full p-8"
     >
-      {message && message.url && (
+      {result?.ok && result.url && (
         <p className="text-sm text-green-500 text-center mb-2">
           Shortprise criado com sucesso! Siga pelo link:{" "}
-          <a className="underline" href={message.url} target="_blank">
-            {message.url}
+          <a className="underline" href={result.url} target="_blank">
+            {result.url}
           </a>
         </p>
       )}
-      {message && message.message && (
+
+      {result?.ok === false && result.message && (
         <p className="text-sm text-red-500 text-center mb-2">
-          {message.message}
+          {result.message}
         </p>
       )}
+
       <RSInput
         {...register("name")}
         label="Qual nome do seu atalho?"
-        prefix="short.pliavi.com/"
+        prefix={`${origin}/`}
         placeholder="example"
+        error={errors.name?.message}
       />
-      {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
+      <div className="mt-6 mb-2 font-bold text-white">Redirecionamentos</div>
       <RSRedirectFieldSet
         control={control}
         register={register}
         errors={errors}
+        error={errors.urls?.message}
       />
-      {errors.urls && <p className="text-red-500">{errors.urls.message}</p>}
 
-      <div className="mt-8 mb-1 text-white font-bold">
+      <div className="mt-6 mb-2 text-white font-bold">
         Como será a aberto o link?
       </div>
+      <RSOpenModeSwitch
+        registerOptions={register("mode")}
+        error={errors.mode?.message}
+      />
 
-      <RSOpenModeSwitch registerOptions={register("mode")} />
-      {errors.mode && <p className="text-red-500">{errors.mode.message}</p>}
-
-      <RSButton
-        type="submit"
-        className="w-full mt-8 bg-indigo-600 hover:bg-indigo-700"
-      >
+      <RSButton type="submit" className="w-full mt-6" variant="primary">
         Criar atalho
       </RSButton>
 
       <small className="text-xs text-center block mt-8">
-        <span className="font-bold"> Obs: </span>O atalho será apagado
+        <span className="font-bold">Obs:</span> O atalho será apagado
         automaticamente depois de 15 dias sem acesso.
       </small>
     </form>

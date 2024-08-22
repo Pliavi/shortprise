@@ -16,7 +16,7 @@ export interface ShortcutsTable {
   name: string;
   mode: "randomly" | "sequentially";
   url_count: number;
-  url_seq: number | null;
+  url_seq?: number;
   expires_at: ColumnType<Date, Date | string, Date | string>;
   created_at: ColumnType<Date, Date | string | undefined, never>;
 }
