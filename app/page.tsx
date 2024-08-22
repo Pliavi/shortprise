@@ -77,7 +77,7 @@ export default function HomePage() {
         {...register("name")}
         label="Qual nome do seu atalho?"
         prefix={`${origin}/`}
-        placeholder="example"
+        placeholder="exemplo"
         error={errors.name?.message}
       />
 

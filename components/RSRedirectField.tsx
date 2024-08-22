@@ -20,7 +20,7 @@ export const RSRedirectField = forwardRef<
     <div className="flex gap-2 items-start">
       <RSInput
         ref={ref}
-        placeholder="example.com or https://example.com"
+        placeholder="exemplo.com or https://exemplo.com"
         {...props}
       />
       <RSButton type="button" onClick={onRemove} className="h-11">
