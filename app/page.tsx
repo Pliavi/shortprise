@@ -19,7 +19,7 @@ type ResultBag = ActionResult & {
 };
 
 export default function HomePage() {
-  const origin = typeof window !== "undefined" && window.location.origin;
+  const location = typeof window !== "undefined" ? window.location : undefined;
   const app = useAppStore();
   const [result, setResult] = useState<ResultBag | undefined>();
   const {
@@ -50,7 +50,7 @@ export default function HomePage() {
 
     app.setStatus("success");
 
-    setResult({ ...result, url: `${origin}/${data.name}` });
+    setResult({ ...result, url: `${location?.origin}/${data.name}` });
   }
 
   return (
@@ -76,7 +76,7 @@ export default function HomePage() {
       <RSInput
         {...register("name")}
         label="Qual nome do seu atalho?"
-        prefix={`${origin}/`}
+        prefix={`${location?.host}/`}
         placeholder="exemplo"
         error={errors.name?.message}
       />
