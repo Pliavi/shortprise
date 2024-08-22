@@ -43,6 +43,8 @@ export const ShortcutRepository = {
             PostgresErrorCode.UniqueViolation
           );
         }
+
+        throw error;
       }
     });
   },

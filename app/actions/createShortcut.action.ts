@@ -46,7 +46,7 @@ export async function createShortcut(
     return {
       ok: false,
       code: "UNKNOWN_ERROR",
-      message: "",
+      message: "Aconteceu um erro inesperado. Tente novamente.",
     };
   }
 }
