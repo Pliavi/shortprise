@@ -7,7 +7,7 @@ type Context = {
   };
 };
 
-export async function GET(request: Request, { params }: Context) {
+export async function GET(_request: Request, { params }: Context) {
   const { id } = params;
 
   const shortcut = await ShortcutRepository.get(id);

@@ -31,8 +31,14 @@ export const ShortcutRepository = {
         .execute();
     });
   },
-  update: () => {},
-  delete: () => {},
+  deleteAllUnused: async () => {
+    const now = new Date();
+
+    await db
+      .deleteFrom("shortcuts")
+      .where("expires_at", "<", now)
+      .executeTakeFirst();
+  },
   get: async (name: string) => {
     return await db.transaction().execute(async (tx) => {
       const shortcut = await tx
@@ -53,16 +59,23 @@ export const ShortcutRepository = {
 
     if (shortcut.mode === "sequentially") {
       let nextUrlIndex = urlIndex + 1;
+
       if (nextUrlIndex >= shortcut.url_count) {
         nextUrlIndex = 0;
       }
 
-      await db
-        .updateTable("shortcuts")
-        .set({ url_seq: nextUrlIndex })
-        .where("id", "=", shortcut.id)
-        .execute();
+      urlIndex = nextUrlIndex;
     }
+
+    await db
+      .updateTable("shortcuts")
+      .set({
+        url_seq: urlIndex,
+        expires_at: addDays(new Date(), DAYS_TO_EXPIRE),
+      })
+      .where("id", "=", shortcut.id)
+      .returningAll()
+      .executeTakeFirstOrThrow();
 
     return await db
       .selectFrom("urls")
