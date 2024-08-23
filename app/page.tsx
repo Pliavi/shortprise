@@ -18,8 +18,9 @@ type ResultBag = ActionResult & {
   url?: string;
 };
 
+const version = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
+
 export default function HomePage() {
-  const version = process.env.VERCEL_GIT_COMMIT_SHA;
   const [location, setLocation] = useState<Location | null>(null);
 
   useEffect(() => {
