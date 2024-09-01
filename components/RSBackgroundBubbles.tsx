@@ -10,7 +10,7 @@ export const RSBackgroundBubbles = () => {
     <>
       <div
         className={clsx([
-          "absolute right-[25%]  bg-opacity-50  w-4/12 aspect-square rounded-full origin-top-right animate-spin-slow transition-colors duration-500",
+          "absolute right-[25%] bg-opacity-50 w-4/12 aspect-square rounded-full origin-top-right sm:animate-spin-slow sm:transition-colors sm:duration-500",
           status === "" && "bg-pink-500",
           status === "loading" && "bg-yellow-500",
           status === "error" && "bg-red-500",
@@ -19,7 +19,7 @@ export const RSBackgroundBubbles = () => {
       ></div>
       <div
         className={clsx([
-          "absolute bottom-[50%]  bg-opacity-50  w-4/12 aspect-square rounded-full origin-bottom animate-spin-slow transition-colors duration-500",
+          "absolute bottom-[50%] bg-opacity-50 w-4/12 aspect-square rounded-full origin-bottom sm:animate-spin-slow sm:transition-colors sm:duration-500",
           status === "" && "bg-purple-500",
           status === "loading" && "bg-yellow-500",
           status === "error" && "bg-red-500",
@@ -28,7 +28,7 @@ export const RSBackgroundBubbles = () => {
       ></div>
       <div
         className={clsx([
-          "absolute left-[25%]  bg-opacity-50  w-4/12 aspect-square rounded-full origin-bottom-left animate-spin-slow transition-colors duration-500",
+          "absolute left-[25%] bg-opacity-50 w-4/12 aspect-square rounded-full origin-bottom-left sm:animate-spin-slow sm:transition-colors sm:duration-500",
           status === "" && "bg-orange-500",
           status === "loading" && "bg-yellow-500",
           status === "error" && "bg-red-500",
@@ -37,7 +37,7 @@ export const RSBackgroundBubbles = () => {
       ></div>
       <div
         className={clsx([
-          "absolute top-[50%]  bg-opacity-50  w-4/12 aspect-square rounded-full origin-top animate-spin-slow transition-colors duration-500",
+          "absolute top-[50%] bg-opacity-50 w-4/12 aspect-square rounded-full origin-top sm:animate-spin-slow sm:transition-colors sm:duration-500",
           status === "" && "bg-cyan-500",
           status === "loading" && "bg-yellow-500",
           status === "error" && "bg-red-500",

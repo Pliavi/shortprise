@@ -63,7 +63,7 @@ export default function HomePage() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="overflow-y-scroll h-full p-8"
+      className="overflow-y-scroll h-full p-4 sm:p-8"
     >
       {result?.ok && result.url && (
         <p className="text-sm text-green-500 text-center mb-2">

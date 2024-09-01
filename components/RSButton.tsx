@@ -12,7 +12,7 @@ export const RSButton = forwardRef<HTMLButtonElement, Props>(function RSButton(
   return (
     <button
       className={clsx(
-        "inline-block rounded-lg p-2 text-white shadow-sm focus:outline-none focus:ring",
+        "inline-block rounded-lg p-2 px-4 text-white shadow-sm focus:outline-none focus:ring",
         variant === "primary" && "bg-indigo-600 hover:bg-indigo-700",
         className
       )}
